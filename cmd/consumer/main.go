@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"query/consume"
 	"time"
@@ -33,18 +34,18 @@ func main() {
 				}
 			}
 
-			//select {
-			//case d := <-c.GetStream():
-			//	res := make(map[string]any)
-			//	if err := json.Unmarshal(d.Body, &res); err != nil {
-			//		log.Println(err)
-			//	}
-			//	log.Println(res)
-			//
-			//	if err := d.Ack(false); err != nil {
-			//		log.Println(err)
-			//	}
-			//}
+			select {
+			case d := <-c.GetStream():
+				res := make(map[string]any)
+				if err := json.Unmarshal(d.Body, &res); err != nil {
+					log.Println(err)
+				}
+				log.Println(res)
+
+				if err := d.Ack(false); err != nil {
+					log.Println(err)
+				}
+			}
 		}
 	}
 }
