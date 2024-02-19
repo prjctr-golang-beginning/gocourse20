@@ -31,4 +31,4 @@ scrape_configs:
   - job_name: "gocourse20"
 
     static_configs:
-      - targets: [ "localhost:4343" ]
+      - targets: [ "host.docker.internal:4343" ]
