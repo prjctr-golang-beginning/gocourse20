@@ -25,8 +25,12 @@ func (rw *responseWriter) WriteHeader(code int) {
 		meter.IncCounter(rw.ctx, meter.TotalErrorsResponse)
 	}
 
+	rw.ResponseWriter.WriteHeader(code)
+}
+
+func (rw *responseWriter) Write(body []byte) (int, error) {
 	rw.timeTracker.Flush(rw.ctx, meter.RequestDuration)
 	meter.UpdateGauge(rw.ctx, meter.ConcurrentConnections, -1)
 
-	rw.ResponseWriter.WriteHeader(code)
+	return rw.ResponseWriter.Write(body)
 }
